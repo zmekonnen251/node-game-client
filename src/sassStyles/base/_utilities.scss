@@ -1,0 +1,42 @@
+.u_center_text {
+	text-align: center !important;
+}
+
+.u_margin_bottom_big {
+	margin-bottom: 8rem !important;
+}
+
+.u_margin_bottom_medium {
+	margin-bottom: 4rem !important;
+
+	@include respond(tab-port) {
+		margin-bottom: 3rem !important;
+	}
+}
+.u_margin_bottom_small {
+	margin-bottom: 1.5rem !important;
+}
+
+.u_margin_top_small {
+	margin-top: 1.5rem !important;
+}
+
+.u_margin_top_big {
+	margin-top: 8rem !important;
+
+	@include respond(tab-port) {
+		margin-top: 5rem !important;
+	}
+}
+
+.u_margin_top_huge {
+	margin-top: 10rem !important;
+}
+
+.u_padding_top_small {
+	padding-top: 5rem !important;
+
+	@include respond(tab-port) {
+		padding-top: 10rem !important;
+	}
+}
