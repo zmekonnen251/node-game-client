@@ -57,7 +57,6 @@ export const signup = createAsyncThunk(
 	async (signUpData, thunkApi) => {
 		try {
 			const { data } = await API.post('/users/signup', signUpData);
-			console.log(data);
 			return data;
 		} catch (err) {
 			// console.log(err.response.data.message);
@@ -193,7 +192,7 @@ export const authSlice = createSlice({
 				// console.log(state);
 
 				state.status = 'succeed';
-				state.user = action.payload;
+				toast.success(action.payload.message);
 				// console.log(action.payload);
 			})
 			.addCase(signup.rejected, (state, action) => {
