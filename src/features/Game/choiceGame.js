@@ -10,7 +10,7 @@ export default function ChoiceGame() {
 
             {
                 game.map((item, index) => {
-                    return <ChoiceButton key={index} name={item} />
+                    return <ChoiceButton key={index} name={item} value={index} />
                 }
                 )
             }
