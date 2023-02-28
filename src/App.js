@@ -13,6 +13,7 @@ import ResetPassword from './features/authentication/ResetPassword';
 
 import { currentUser } from './features/authentication/authSlice';
 import { useSelector } from 'react-redux';
+import Game from './pages/Game';
 // import ProtectedRouteAdmin from './features/authentication/ProtectedRouteAdmin';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
 			<ToastContainer />
 			<Routes>
 				<Route path='/' element={<Home />} />
+				<Route path='/game'  element={ < Game />}/>
 				<Route
 					path='/login'
 					element={user?.user ? <Navigate to='/profile' /> : <Login />}

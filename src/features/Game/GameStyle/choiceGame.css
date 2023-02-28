@@ -1,0 +1,32 @@
+.choice {
+   
+}
+
+.question {
+    text-align: center;
+}
+
+.choice__buttons {
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   align-items: center;
+   margin-top: 15px;
+}
+
+.choice__button {
+    width: 200px;
+    height: 50px;
+    margin: 10px;
+    border-radius: 10px;
+    background-color: rgb(179, 171, 171);
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+}
+
+.choice__button:hover {
+    background-color: rgb(108, 180, 234);
+}
