@@ -1,9 +1,17 @@
 .choice {
-   
+   display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .question {
     text-align: center;
+}
+
+.question-body {
+    width: 50%;
+    background-color: rgb(226, 250, 215);
 }
 
 .choice__buttons {
