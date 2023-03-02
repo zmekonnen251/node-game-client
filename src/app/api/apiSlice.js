@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setCredentials } from '../../features/authentication/authSlice2';
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: 'http://localhost:5000/api',
+	baseUrl: 'https://lambent-maamoul-6d6af3.netlify.app/api',
 	credentials: 'include',
 	prepareHeaders: (headers, { getState }) => {
 		const token = getState().auth.token;
