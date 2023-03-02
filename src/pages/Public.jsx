@@ -1,12 +1,8 @@
 import React from 'react';
-import Footer from '../layouts/Footer';
-import Header from '../layouts/Header';
 
-const Home = () => {
+const Public = () => {
 	return (
 		<>
-			<Header />
-
 			<main>
 				<div className='home'>
 					<div className='home__container'>
@@ -17,9 +13,8 @@ const Home = () => {
 					</div>
 				</div>
 			</main>
-			<Footer />
 		</>
 	);
 };
 
-export default Home;
+export default Public;

@@ -4,7 +4,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { useSelector, useDispatch } from 'react-redux';
 import { forgotPassword } from './authSlice';
-import Header from '../../layouts/Header';
 import { FormProvider } from 'react-hook-form';
 import { FormField, SubmitButton } from '../../components/form';
 
@@ -35,7 +34,6 @@ const ForgotPassword = () => {
 
 	return (
 		<>
-			<Header />
 			<div className='auth'>
 				<div className='auth__container'>
 					<ul className='auth__links'>

@@ -1,13 +1,12 @@
 import React from 'react';
-import Header from '../../layouts/Header';
-import { useSelector } from 'react-redux';
-import { currentUser } from '../authentication/authSlice';
+
 import UpdateUserForm from './UpdateUserForm';
 import UpdatePasswordForm from './UpdatePasswordForm';
 import ProfileSideBar from './ProfileSideBar';
+import useAuth from '../../hooks/useAuth';
 
 const Profile = () => {
-	const user = useSelector(currentUser)?.user;
+	const user = useAuth();
 	const userName = user?.name;
 	const userEmail = user?.email;
 	const userPhoto = user?.photo;
@@ -15,8 +14,6 @@ const Profile = () => {
 
 	return (
 		<>
-			<Header />
-
 			<div className='user-view'>
 				<ProfileSideBar />
 				<div className='user-view__content'>
