@@ -19,10 +19,7 @@ const Header = () => {
 
 	useEffect(() => {
 		if (isSuccess) navigate('/login');
-		if (!user?.isLoggedIn) {
-			navigate('/login');
-		}
-	}, [isSuccess, navigate, user]);
+	}, [isSuccess, navigate]);
 
 	return (
 		<header className='header-wrapper'>

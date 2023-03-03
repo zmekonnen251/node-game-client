@@ -36,9 +36,7 @@ const LoginForm = () => {
 
 		dispatch(setCredentials({ accessToken }));
 		if (isSuccess) navigate('/profile');
-
 	};
-
 
 	if (isLoading) return <PulseLoader color={'#55c57a'} />;
 
