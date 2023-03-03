@@ -52,7 +52,7 @@ const Header = () => {
 										className='nav-el'
 									>
 										<img
-											src={`${process.env.REACT_APP_PUBLIC_URL}/img/users/${user?.photo}`}
+											src={`${process.env.REACT_APP_PUBLIC_API_URL}/img/users/${user?.photo}`}
 											className='nav__user-img'
 											alt={user?.name}
 										/>
