@@ -11,6 +11,7 @@ export default function ChoiceGame() {
     const [question, setQuestion] = useState("");
     const [gameResult , setGameResult] = useState(); 
     const [count, setCount] = useState(1);
+    const [quesionId , setQuestionId] = useState("");
    
 
     const playHandler = async () => {
@@ -19,6 +20,7 @@ export default function ChoiceGame() {
         setGameResult(0);
         const response = await createGame();
         setGame_id(response.gameId);
+        setQuestionId(response.questionId)
         setQuestion(response.questionOne.question)
         setChoice([response.questionOne.option1, response.questionOne.option2, response.questionOne.option3, response.questionOne.option4])
     }
@@ -52,6 +54,8 @@ export default function ChoiceGame() {
                         setPlay={setPlay}
                         setCount={setCount}
                         count={count}
+                        questionId={quesionId}
+                        setQuestionId={setQuestionId}
                         />
                    }
                    )
