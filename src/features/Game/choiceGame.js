@@ -2,6 +2,7 @@ import React, { useState} from 'react'
 import  './GameStyle/choiceGame.css'
 import ChoiceButton from './choiceButton'
 import { createGame } from './GameApi/createGame'
+import Timer from './timer'
 
 export default function ChoiceGame() {
     const game = ["messi", "ronaldo", "modric", "salah"]
@@ -40,7 +41,11 @@ export default function ChoiceGame() {
           {
                question ? 
                <>
-               <h3 className='question'>{question}</h3>
+               <div className='question-container'>
+                  <Timer />
+                  <h2 className='question'>{question}</h2>
+               </div>
+               <span className='question-mark'>?</span>
                {
                    game.map((item, index) => {
                        return <ChoiceButton
