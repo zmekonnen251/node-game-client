@@ -4,6 +4,7 @@ import ChoiceButton from "./choiceButton";
 import { createGame } from "./GameApi/createGame";
 import Timer from "./timer";
 import { answerQuestion } from "./GameApi/answerQuestion";
+import {getQuestion} from './GameApi/question';
 
 export default function ChoiceGame() {
   const game = ["messi", "ronaldo", "modric", "salah"];
@@ -16,6 +17,7 @@ export default function ChoiceGame() {
   const [questionId, setQuestionId] = useState("");
   const [timer, setTimer] = useState(100);
   const [unanswered, setAnswered] = useState("");
+  const [error , setError] = useState("");
 
   const answerHandler = async (e) => {
     setCount(count + 1);
@@ -52,30 +54,51 @@ export default function ChoiceGame() {
     }, [timer]);
 
   const playHandler = async () => {
-    setTimer(110);
-    setPlay(false);
-    setCount(1);
-    setGameResult(0);
     const response = await createGame();
-    setGame_id(response.gameId);
-    setQuestionId(response.questionId);
-    setQuestion(response.questionOne.question);
-    setChoice([
-      response.questionOne.option1,
-      response.questionOne.option2,
-      response.questionOne.option3,
-      response.questionOne.option4,
-    ]);
+    if(response.status === 200) {
+        setError('');
+        setTimer(110);
+        setPlay(false);
+        setCount(1);
+        setGameResult(0);
+        setGame_id(response.gameId);
+        setQuestionId(response.questionId);
+        setQuestion(response.questionOne.question);
+        setChoice([
+          response.questionOne.option1,
+          response.questionOne.option2,
+          response.questionOne.option3,
+          response.questionOne.option4,
+        ]);
+        return;
+    }
+    if(response.response.data.message){
+        setError(response.response.data.message);
+        setCount(10)
+        return;
+    }
+    setError(response.response.statusText);
+    setCount(10)
+    return '';
   };
+
+    const fetchquestion = async () => {
+        const response = await getQuestion();
+        console.log(response);
+    }
 
   return (
     <div className="choice">
       <div className="question-body">
+        {
+            error ? <h1>{error}</h1> : null
+        }
         {play ? (
           <>
             <button className="play__button" onClick={playHandler}>
               Play
             </button>
+            <button onClick={fetchquestion}>question</button>
             {gameResult ? <h1>Game Result: {gameResult}/10</h1> : null}
           </>
         ) : null}
