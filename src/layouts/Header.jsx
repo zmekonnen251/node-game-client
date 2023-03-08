@@ -1,21 +1,15 @@
+import React, { useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import PulseLoader from 'react-spinners/PulseLoader';
 import logoSrc from '../assets/img/game-logo1.png';
 import useAuth from '../hooks/useAuth';
 import { useSendLogoutMutation } from '../features/authentication/authApiSlice';
-import { useEffect } from 'react';
 
 const Header = () => {
 	const user = useAuth();
 	const [sendLogout, { isLoading, isSuccess }] = useSendLogoutMutation();
 
 	const navigate = useNavigate();
-	// const location = useLocation();
-	console.log('user', user);
-
-	// useEffect(() => {
-	// 	if (!user) dispatch(getUser());
-	// }, [location, user, dispatch]);
 
 	useEffect(() => {
 		if (isSuccess) navigate('/login');

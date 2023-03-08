@@ -8,11 +8,20 @@ const useAuth = () => {
 
 	if (token) {
 		const decoded = jwtDecode(token);
-		const { name, email, photo, phone, role, _id } = decoded;
-
+		const { name, email, photo, phone, verified, role, _id } = decoded;
 		isAdmin = role === 'Admin';
 
-		return { name, email, photo, phone, role, _id, isAdmin, isLoggedIn: true };
+		return {
+			name,
+			email,
+			verified,
+			photo,
+			phone,
+			role,
+			_id,
+			isAdmin,
+			isLoggedIn: true,
+		};
 	}
 
 	return {
@@ -21,6 +30,7 @@ const useAuth = () => {
 		photo: '',
 		phone: '',
 		role: '',
+		verified: false,
 		isAdmin,
 		isLoggedIn: false,
 	};

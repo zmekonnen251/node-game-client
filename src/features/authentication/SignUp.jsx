@@ -1,12 +1,15 @@
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import { useEffect, useState } from 'react';
 
 import { FormField, SubmitButton } from '../../components/form';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { signup } from './authSlice';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+// import { signup } from './authSlice';
+import { useSignupMutation } from './authApiSlice';
+import { Link, useNavigate } from 'react-router-dom';
+import PulseLoader from 'react-spinners/PulseLoader';
+import { toast } from 'react-toastify';
 
 const phoneRegExp = /^(\+251?(9|7))?\d{8}$/;
 
@@ -24,23 +27,28 @@ const validationSchema = Yup.object().shape({
 });
 
 const SignUpForm = () => {
+	const [signup, { isLoading, isSuccess, isError, error }] =
+		useSignupMutation();
+	const [phone, setPhone] = useState('');
+
 	const methods = useForm({
 		resolver: yupResolver(validationSchema),
 	});
 
-	const dispatch = useDispatch();
-	const location = useLocation();
 	const navigate = useNavigate();
-
-	const signUpStatus = useSelector((state) => state.auth.status);
 
 	const onSubmit = async (values) => {
 		values.passwordConfirm = undefined;
-		await dispatch(signup(values));
+		setPhone(values.phone);
+		await signup(values);
 	};
 
-	if (signUpStatus === 'succeed' && location.pathname === '/signup')
-		navigate('/profile');
+	useEffect(() => {
+		if (isSuccess) {
+			toast.success('OTP sent to your phone number and email');
+			navigate(`/verify-otp/${phone}`);
+		}
+	}, [isSuccess, navigate, phone]);
 
 	return (
 		<>
@@ -93,7 +101,9 @@ const SignUpForm = () => {
 									name='passwordConfirm'
 									placeholder='Confirm your password'
 								/>
-								<SubmitButton title='Sign Up' />
+								<SubmitButton
+									title={isLoading ? <PulseLoader color={'#fff'} /> : 'Sign Up'}
+								/>
 
 								<div className='login__divider' />
 								<div className='action-links'>

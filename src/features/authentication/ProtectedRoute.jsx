@@ -3,7 +3,6 @@ import useAuth from '../../hooks/useAuth';
 
 const ProtectedRoute = () => {
 	const user = useAuth();
-	console.log('Protected route', user);
 
 	return user.isLoggedIn ? <Outlet /> : <Navigate to='/login' />;
 };

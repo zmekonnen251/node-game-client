@@ -2,7 +2,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setCredentials } from '../../features/authentication/authSlice2';
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: 'https://node-game.onrender.com/api',
+	// baseUrl: 'https://node-game.onrender.com/api',
+	baseUrl: 'http://localhost:5000/api',
 	credentials: 'include',
 	prepareHeaders: (headers, { getState }) => {
 		const token = getState().auth.token;

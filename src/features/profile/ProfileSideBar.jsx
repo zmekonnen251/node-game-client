@@ -27,13 +27,13 @@ function ProfileSideBar() {
 				<li>
 					<Link to='/profile/my-bookings'>
 						<FontAwesomeIcon icon={faBriefcase} />
-						My bookings
+						My Games
 					</Link>
 				</li>
 				<li>
 					<a href='#dasdf'>
 						<FontAwesomeIcon icon={faStar} />
-						My reviews
+						My Balance
 					</a>
 				</li>
 				<li>

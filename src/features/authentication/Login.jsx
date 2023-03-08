@@ -8,6 +8,12 @@ import { useLoginMutation } from './authApiSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import PulseLoader from 'react-spinners/PulseLoader';
 import usePersist from '../../hooks/usePersist';
+import GoogleLogin from './GoogleLogin';
+// import { gapi } from 'gapi-script';
+// import { useEffect } from 'react';
+// import Icon from './Icon';
+
+// import Button from '../../components/Ui/Button';
 
 const validationSchema = Yup.object().shape({
 	email: Yup.string().email('Email not valid').required('Email is required'),
@@ -18,6 +24,7 @@ const validationSchema = Yup.object().shape({
 
 const LoginForm = () => {
 	const [login, { isLoading, isSuccess }] = useLoginMutation();
+
 	const [persist, setPersist] = usePersist();
 
 	const handleToggle = () => setPersist((prev) => !prev);
@@ -35,10 +42,10 @@ const LoginForm = () => {
 		} = await login(values);
 
 		dispatch(setCredentials({ accessToken }));
-		if (isSuccess) navigate('/profile');
 	};
 
-	if (isLoading) return <PulseLoader color={'#55c57a'} />;
+	if (isSuccess) navigate('/profile');
+	// if (isSuccessGoogle) navigate('/profile');
 
 	return (
 		<>
@@ -71,6 +78,9 @@ const LoginForm = () => {
 									type='password'
 									placeholder='Password'
 								/>
+								<div className='form__group'>
+									<GoogleLogin />
+								</div>
 								<label htmlFor='persist' className='form__persist'>
 									<input
 										type='checkbox'
@@ -83,7 +93,9 @@ const LoginForm = () => {
 								</label>
 								<SubmitButton
 									disable={isLoading}
-									title={`${isLoading ? 'Signing In' : 'Sign In'}`}
+									title={
+										isLoading ? <PulseLoader color={'#fff'} /> : 'Sign In'
+									}
 								/>
 
 								<div className='login__divider' />

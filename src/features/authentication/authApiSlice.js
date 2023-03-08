@@ -10,6 +10,62 @@ export const authApiSlice = apiSlice.injectEndpoints({
 				body: { ...credentials },
 			}),
 		}),
+		signInWithGoogle: builder.mutation({
+			query: (credentials) => ({
+				url: '/users/google-signin',
+				method: 'POST',
+				body: { ...credentials },
+			}),
+		}),
+		signup: builder.mutation({
+			query: (credentials) => ({
+				url: '/users/signup',
+				method: 'POST',
+				body: { ...credentials },
+			}),
+		}),
+		verifyOtp: builder.mutation({
+			query: (credentials) => ({
+				url: '/users/verify-otp',
+				method: 'POST',
+				body: { ...credentials },
+			}),
+		}),
+		forgotPassword: builder.mutation({
+			query: (email) => ({
+				url: '/users/forgot-password',
+				method: 'POST',
+				body: { email },
+			}),
+		}),
+		resetPassword: builder.mutation({
+			query: (credentials) => ({
+				url: `users/reset-password/${credentials.resetToken}`,
+				method: 'PATCH',
+				body: { password: credentials.password },
+			}),
+		}),
+		updatePassword: builder.mutation({
+			query: (credentials) => ({
+				url: 'users/update-my-password',
+				method: 'PATCH',
+				body: { ...credentials },
+			}),
+		}),
+		updatePhoneNumber: builder.mutation({
+			query: (credentials) => ({
+				url: 'users/update-my-phone-number',
+				method: 'PATCH',
+				body: { ...credentials },
+			}),
+		}),
+		updateMe: builder.mutation({
+			query: (body) => ({
+				url: 'users/update-me',
+				method: 'PATCH',
+				body,
+			}),
+		}),
 		sendLogout: builder.mutation({
 			query: () => ({
 				url: '/users/logout',
@@ -17,8 +73,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
 			}),
 			async onQueryStarted(arg, { dispatch, queryFulfilled }) {
 				try {
-					const { data } = await queryFulfilled;
-					console.log(data);
+					await queryFulfilled;
+
 					dispatch(logOut());
 					setTimeout(() => {
 						dispatch(apiSlice.util.resetApiState());
@@ -36,7 +92,6 @@ export const authApiSlice = apiSlice.injectEndpoints({
 			async onQueryStarted(arg, { dispatch, queryFulfilled }) {
 				try {
 					const { data } = await queryFulfilled;
-					console.log(data);
 					const { accessToken } = data;
 					dispatch(setCredentials({ accessToken }));
 				} catch (err) {
@@ -47,5 +102,16 @@ export const authApiSlice = apiSlice.injectEndpoints({
 	}),
 });
 
-export const { useLoginMutation, useSendLogoutMutation, useRefreshMutation } =
-	authApiSlice;
+export const {
+	useLoginMutation,
+	useSignupMutation,
+	useVerifyOtpMutation,
+	useSendLogoutMutation,
+	useRefreshMutation,
+	useForgotPasswordMutation,
+	useResetPasswordMutation,
+	useUpdatePasswordMutation,
+	useSignInWithGoogleMutation,
+	useUpdatePhoneNumberMutation,
+	useUpdateMeMutation,
+} = authApiSlice;
