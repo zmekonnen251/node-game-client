@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Button = ({ onClick, title, color, variant, type, disabled }) => {
+const Button = ({ onClick, title, color, variant, type, otherProps }) => {
 	const cls = `${
 		variant === 'contained' ? 'btn' : variant === 'text' ? 'btn-text' : 'btn'
 	} btn--${color}`;
@@ -9,7 +9,7 @@ const Button = ({ onClick, title, color, variant, type, disabled }) => {
 			onClick={onClick}
 			className={`btn ${cls}`}
 			type={type}
-			disabled={disabled}
+			{...otherProps}
 		>
 			{title}
 		</button>

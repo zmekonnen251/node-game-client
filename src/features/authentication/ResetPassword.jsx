@@ -2,37 +2,66 @@ import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetPassword } from './authSlice';
+import { useResetPasswordMutation } from './authApiSlice';
+import { setCredentials } from './authSlice2';
+import { toast } from 'react-toastify';
+import PulseLoader from 'react-spinners/PulseLoader';
 
-import Header from '../../layouts/Header';
+// import Header from '../../layouts/Header';
 
 const PasswordReset = () => {
 	const { resetToken } = useParams();
 	const [password, setPassword] = useState('');
 	const [passwordConfirm, setPasswordConfirm] = useState('');
+	const [resetPassword, {isLoading, isSuccess, isError, error}] = useResetPasswordMutation();
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const resetPasswordStatus = useSelector((state) => state.auth.status);
+	if (resetToken === undefined) return;
 
-	if (resetToken === undefined) return <div>Invalid token</div>;
-
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		dispatch(resetPassword({ resetToken, password }));
+		const credentials = {
+			resetToken,
+			password
+		}
+
+		const {
+			data: { accessToken },
+		} = await resetPassword(credentials);
+
+		dispatch(setCredentials({ accessToken }));
+		
 	};
 
-	if (resetPasswordStatus === 'password-reseted') {
-		navigate('/profile');
-	}
+	if (isSuccess) {
+		toast.success('Your password reseted successfully!');	
+		navigate('/profile')
+	};
+
+	if (isLoading)
+		return (
+			<div
+				style={{
+					height: '70vh',
+					width: '100%',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+			>
+				<PulseLoader color={'#55c57a'} />
+			</div>
+	);
+
 	return (
-		<>
-			<Header />
+		<div className='auth'>
 			<div className='login-form u_margin_top_big'>
 				<h1
 					className='heading-tertiary u_center_text u_margin_bottom_medium'
-					style={{ fontSize: '2.5rem', transform: 'translateX(-2.5rem)' }}
+					style={{ fontSize: '2.5rem'}}
 				>
 					Reset Password
 				</h1>
@@ -68,11 +97,11 @@ const PasswordReset = () => {
 						</label>
 					</div>
 					<div className='form__group'>
-						<button className='btn btn--green'>Next step &#10132;</button>
+						<button className='btn btn--green' style={{ transform: 'translateX(0.6rem)' }}>Reset Password</button>
 					</div>
 				</form>
 			</div>
-		</>
+		</div>
 	);
 };
 

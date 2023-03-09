@@ -2,11 +2,14 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { ErrorMessage } from '@hookform/error-message';
+import { toast } from 'react-toastify';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 import { SubmitButton } from '../../components/form';
 import { useDispatch } from 'react-redux';
-import { updatePassword } from '../authentication/authSlice';
-
+// import { updatePassword } from '../authentication/authSlice';
+import {useUpdatePasswordMutation} from '../authentication/authApiSlice';
+import {setCredentials} from '../authentication/authSlice2';
 
 const validationSchema = Yup.object().shape({
 	passwordCurrent: Yup.string().min(8).required('Name is required'),
@@ -20,6 +23,8 @@ const validationSchema = Yup.object().shape({
 });
 
 const UpdatePasswordForm = () => {
+	const [updatePassword, { isLoading, isSuccess, isError, error }] = useUpdatePasswordMutation();
+
 	const {
 		register,
 		handleSubmit,
@@ -32,9 +37,31 @@ const UpdatePasswordForm = () => {
 
 	const onSubmit = async (values) => {
 		values.passwordConfirm = undefined;
-		await dispatch(updatePassword(values));
+		const {
+			data: { accessToken },
+		} = await updatePassword(values);
+		dispatch(setCredentials({ accessToken }));
 	};
 
+	if (
+		isSuccess
+	) {
+		toast.success('Password updated successfully!');
+	}
+		if (isLoading)
+		return (
+			<div
+				style={{
+					height: '70vh',
+					width: '100%',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+			>
+				<PulseLoader color={'#55c57a'} />
+			</div>
+		);
 	return (
 		<div className='user-view__form-container'>
 			<h2 className='heading-secondary ma-bt-md'>Password change</h2>

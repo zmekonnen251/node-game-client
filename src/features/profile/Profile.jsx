@@ -1,22 +1,19 @@
 import React from 'react';
-import Header from '../../layouts/Header';
-import { useSelector } from 'react-redux';
-import { currentUser } from '../authentication/authSlice';
+
 import UpdateUserForm from './UpdateUserForm';
 import UpdatePasswordForm from './UpdatePasswordForm';
 import ProfileSideBar from './ProfileSideBar';
+import useAuth from '../../hooks/useAuth';
+import UpdatePhoneNumber from './UpdatePhoneNumber';
 
 const Profile = () => {
-	const user = useSelector(currentUser)?.user;
+	const user = useAuth();
 	const userName = user?.name;
 	const userEmail = user?.email;
 	const userPhoto = user?.photo;
-	console.log('user', user);
 
 	return (
 		<>
-			<Header />
-
 			<div className='user-view'>
 				<ProfileSideBar />
 				<div className='user-view__content'>
@@ -25,6 +22,12 @@ const Profile = () => {
 							Your account settings
 						</h2>
 
+						{!user?.verified && (
+							<p style={{ fontSize: '18px', color: 'red' }}>
+								Please Update your phone number to verify your account
+							</p>
+						)}
+
 						<UpdateUserForm
 							name={userName}
 							email={userEmail}
@@ -32,6 +35,12 @@ const Profile = () => {
 						/>
 					</div>
 					<div className='line'>&nbsp;</div>
+					<UpdatePhoneNumber
+						phoneNumber={user?.phone}
+						verified={user?.verified}
+					/>
+					<div className='line'>&nbsp;</div>
+
 					<UpdatePasswordForm />
 				</div>
 			</div>

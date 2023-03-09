@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -6,7 +6,11 @@ import { ErrorMessage } from '@hookform/error-message';
 
 import { SubmitButton } from '../../components/form';
 import { useDispatch } from 'react-redux';
-import { updateMe } from '../authentication/authSlice';
+import { useUpdateMeMutation } from '../authentication/authApiSlice';
+import { setCredentials } from '../authentication/authSlice2';
+import PulseLoader from 'react-spinners/PulseLoader';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const validationSchema = Yup.object().shape({
 	name: Yup.string().min(4),
@@ -15,6 +19,8 @@ const validationSchema = Yup.object().shape({
 });
 
 const UpdateUserForm = ({ name, email, photo: userPhoto }) => {
+	const [updateMe, { isLoading, isSuccess, isError, error }] =
+		useUpdateMeMutation();
 	const {
 		register,
 		handleSubmit,
@@ -32,16 +38,26 @@ const UpdateUserForm = ({ name, email, photo: userPhoto }) => {
 	const [file, setFile] = useState(null);
 
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const onSubmit = async (values) => {
-		console.log(values);
 		const formData = new FormData();
 		if (values.name !== name) formData.append('name', values.name);
 		if (values.email !== email) formData.append('email', values.email);
 		if (values.photo) formData.append('photo', values.photo[0]);
 
-		await dispatch(updateMe(formData));
+		const {
+			data: { accessToken },
+		} = await updateMe(formData);
+		dispatch(setCredentials({ accessToken }));
 	};
+
+	useEffect(() => {
+		if (isSuccess) {
+			toast.success('User updated successfully!');
+			window.location.reload('/profile');
+		}
+	}, [isSuccess, navigate]);
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className='form form-user-data'>
@@ -78,7 +94,7 @@ const UpdateUserForm = ({ name, email, photo: userPhoto }) => {
 					src={
 						file
 							? URL.createObjectURL(file)
-							: `${process.env.REACT_APP_PUBLIC_URL}/img/users/${userPhoto}`
+							: `${process.env.REACT_APP_PUBLIC_API_URL}/img/users/${userPhoto}`
 					}
 					alt='User'
 				/>
@@ -100,8 +116,8 @@ const UpdateUserForm = ({ name, email, photo: userPhoto }) => {
 			</div>
 			<ErrorMessage errors={errors} name='photo' as='p' />
 			<SubmitButton
-				title='Save Settings'
 				type='submit'
+				title={isLoading ? <PulseLoader color={'#fff'} /> : 'Save Settings'}
 				disabled={
 					isSubmitting ||
 					(errors.email && touchedFields.email) ||

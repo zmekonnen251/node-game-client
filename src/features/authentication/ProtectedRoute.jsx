@@ -1,11 +1,10 @@
-import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
-import { currentUser } from './authSlice';
+import useAuth from '../../hooks/useAuth';
 
 const ProtectedRoute = () => {
-	const user = useSelector(currentUser);
+	const user = useAuth();
 
-	return user ? <Outlet /> : <Navigate to='/login' />;
+	return user.isLoggedIn ? <Outlet /> : <Navigate to='/login' />;
 };
 
 export default ProtectedRoute;

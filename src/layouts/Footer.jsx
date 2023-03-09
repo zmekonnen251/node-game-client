@@ -6,15 +6,7 @@ import logoSrcSmall2x from '../assets/img/game-logo2.jpeg';
 const Footer = () => {
 	return (
 		<footer className='footer' id='footer'>
-			<div className='footer__logo-box'>
-				<picture className='footer__logo'>
-					<source
-						srcSet={`${logoSrcSmall1x} 1x, ${logoSrcSmall2x} 2x`}
-						media='(max-width: 37.5em)'
-					/>
-					<img srcSet={`${logoSrc1x} 1x,${logoSrc2x} 2x`} alt='Full logo' />
-				</picture>
-			</div>
+		
 
 			<div className='row'>
 				<div className='col-1-of-2'>
@@ -56,9 +48,7 @@ const Footer = () => {
 						</a>{' '}
 						Copyright &copy; by Abyssinia Tour. Lorem ipsum dolor, sit amet
 						consectetur adipisicing elit. Harum dicta odio sunt. Cumque hic
-						porro, odio quis nisi, voluptates tempora ducimus vero fuga nihil
-						necessitatibus omnis asperiores et accusantium saepe! Suscipit
-						molestiae.
+						
 					</p>
 				</div>
 			</div>

@@ -1,12 +1,11 @@
-import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
-import { currentUser } from './authSlice';
+import useAuth from '../../hooks/useAuth';
 
 const ProtectedRouteAdmin = () => {
-	const user = useSelector(currentUser);
-	console.log(user?.user?.role);
+	const user = useAuth();
 
-	return user?.user?.role === 'admin' ? <Outlet /> : <Navigate to='/profile' />;
+
+	return user?.isAdmin ? <Outlet /> : <Navigate to='/profile' />;
 };
 
 export default ProtectedRouteAdmin;

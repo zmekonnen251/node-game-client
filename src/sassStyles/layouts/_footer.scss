@@ -1,11 +1,11 @@
 .footer {
 	background-color: $color_grey_dark_3;
-	padding: 10rem 0;
+	padding: 3rem 0;
 	font-size: 1.4rem;
 	color: $color_grey_light_1;
 
 	@include respond(tab-port) {
-		padding: 8rem 0;
+		padding: 4rem 0;
 	}
 
 	&__logo-box {

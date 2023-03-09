@@ -1,39 +1,26 @@
-import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import PulseLoader from 'react-spinners/PulseLoader';
 import logoSrc from '../assets/img/game-logo1.png';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-	currentUser,
-	logout,
-	getUser,
-} from '../features/authentication/authSlice';
-import { useEffect } from 'react';
+import useAuth from '../hooks/useAuth';
+import { useSendLogoutMutation } from '../features/authentication/authApiSlice';
 
 const Header = () => {
-	const user = useSelector(currentUser);
-	const status = useSelector((state) => state.auth.status);
+	const user = useAuth();
+	const [sendLogout, { isLoading, isSuccess }] = useSendLogoutMutation();
 
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const location = useLocation();
 
 	useEffect(() => {
-		if (!user) dispatch(getUser());
-	}, [location, user, dispatch]);
-
-	const handleLogout = () => {
-		dispatch(logout());
-	};
-
-	if (status === 'loggedOut') {
-		navigate('/login');
-	}
+		if (isSuccess) navigate('/login');
+	}, [isSuccess, navigate]);
 
 	return (
 		<header className='header-wrapper'>
 			<div className='header'>
 				<div className='header-left'>
 					<div className='logo'>
-						<Link to='/'>
+						<Link to='/games'>
 							<img src={logoSrc} className='logo-img' alt='Natours logo' />
 						</Link>
 					</div>
@@ -42,35 +29,35 @@ const Header = () => {
 				<nav className='nav'>
 					<ul className='nav--user'>
 						<li>
-							<Link to='/game' className='nav-el'>
+							<Link to='/games' className='nav-el'>
 								Games
 							</Link>
 						</li>
-						{user && (
+						{user.isLoggedIn && (
 							<>
 								<li>
-									<button onClick={handleLogout} className='nav-el'>
-										Log Out
+									<button onClick={sendLogout} className='nav-el'>
+										{isLoading ? <PulseLoader color={'#55c57a'} /> : 'Log Out'}
 									</button>
 								</li>
 								<li>
 									<Link
-										to={user.user?.role === 'admin' ? '/admin' : '/profile'}
+										to={user?.isAdmin ? '/admin' : '/profile'}
 										className='nav-el'
 									>
 										<img
-											src={`${process.env.REACT_APP_PUBLIC_URL}/img/users/${user.user?.photo}`}
+											src={`${process.env.REACT_APP_PUBLIC_API_URL}/img/users/${user?.photo}`}
 											className='nav__user-img'
-											alt={user.user?.name}
+											alt={user?.name}
 										/>
 									</Link>
 								</li>
 								<li>
 									<NavLink to={'/profile'} className='nav-el'>
-										{user.user?.name?.split(' ')[0]}
+										{user?.name?.split(' ')[0]}
 									</NavLink>
 								</li>
-								{user.user?.role === 'admin' && (
+								{user.isAdmin && (
 									<li>
 										<NavLink to='/dashboard' className='nav-el'>
 											Dashboard
@@ -79,7 +66,7 @@ const Header = () => {
 								)}
 							</>
 						)}
-						{!user && (
+						{!user.isLoggedIn && (
 							<>
 								<li>
 									<NavLink to='/login' className='nav-el'>

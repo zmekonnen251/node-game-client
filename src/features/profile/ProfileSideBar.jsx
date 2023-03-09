@@ -10,11 +10,10 @@ import {
 	faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 
-import { currentUser } from '../authentication/authSlice';
-import { useSelector } from 'react-redux';
+import useAuth from '../../hooks/useAuth';
 
 function ProfileSideBar() {
-	const user = useSelector(currentUser)?.user;
+	const user = useAuth();
 
 	return (
 		<nav className='user-view__menu'>
@@ -28,13 +27,13 @@ function ProfileSideBar() {
 				<li>
 					<Link to='/profile/my-bookings'>
 						<FontAwesomeIcon icon={faBriefcase} />
-						My bookings
+						My Games
 					</Link>
 				</li>
 				<li>
 					<a href='#dasdf'>
 						<FontAwesomeIcon icon={faStar} />
-						My reviews
+						My Balance
 					</a>
 				</li>
 				<li>
@@ -44,7 +43,7 @@ function ProfileSideBar() {
 					</a>
 				</li>
 			</ul>
-			{user?.role === 'admin' && (
+			{user?.isAdmin && (
 				<div className='admin-nav'>
 					<h5 className='admin-nav__heading'>Admin</h5>
 					<ul className='side-nav'>
