@@ -14,12 +14,15 @@ import ProtectedRoute from './features/authentication/ProtectedRoute';
 import ResetPassword from './features/authentication/ResetPassword';
 import RestrictUnverifiedUser from './features/authentication/RestrictUnverifiedUser';
 
+import { currentUser } from './features/authentication/authSlice';
+import { useSelector } from 'react-redux';
 import useAuth from './hooks/useAuth';
 import PersistLogin from './features/authentication/PersistLogin';
 import Header from './layouts/Header';
 import Footer from './layouts/Footer';
 import Public from './pages/Public';
 import Games from './pages/Games';
+
 // import ProtectedRouteAdmin from './features/authentication/ProtectedRouteAdmin';
 
 function App() {
@@ -31,6 +34,9 @@ function App() {
 			<Header />
 
 			<Routes>
+
+				
+				<Route path='/game'  element={ < Game />}/>
 				<Route path='/' element={<Public />} />
 				<Route
 					path='/login'
