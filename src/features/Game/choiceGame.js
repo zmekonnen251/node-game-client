@@ -4,7 +4,6 @@ import ChoiceButton from "./choiceButton";
 import { createGame } from "./GameApi/createGame";
 import Timer from "./timer";
 import { answerQuestion } from "./GameApi/answerQuestion";
-import {getQuestion} from './GameApi/question';
 
 export default function ChoiceGame() {
   const game = ["messi", "ronaldo", "modric", "salah"];
@@ -55,6 +54,7 @@ export default function ChoiceGame() {
 
   const playHandler = async () => {
     const response = await createGame();
+    console.log(response);
     if(response.status === 200) {
         setError('');
         setTimer(110);
@@ -82,11 +82,6 @@ export default function ChoiceGame() {
     return '';
   };
 
-    const fetchquestion = async () => {
-        const response = await getQuestion();
-        console.log(response);
-    }
-
   return (
     <div className="choice">
       <div className="question-body">
@@ -98,7 +93,6 @@ export default function ChoiceGame() {
             <button className="play__button" onClick={playHandler}>
               Play
             </button>
-            <button onClick={fetchquestion}>question</button>
             {gameResult ? <h1>Game Result: {gameResult}/10</h1> : null}
           </>
         ) : null}
