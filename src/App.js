@@ -29,6 +29,7 @@ import Play from './pages/games/play/play'
 function App() {
 	const user = useAuth();
 
+
 	return (
 		<>
 			<ToastContainer />
@@ -41,7 +42,7 @@ function App() {
 					path='/login'
 					element={user.isLoggedIn ? <Navigate to='/profile' /> : <Login />}
 				/>
-                <Route path='/play' element={<Play />} />
+                <Route path='/play/:gameId' element={<Play />} />
 				<Route path='/signup' element={<SignUp />} />
 				<Route path='/verify-otp/:phone' element={<VerifyOtp />} />
 				<Route path='/forgot-password' element={<ForgotPassword />} />

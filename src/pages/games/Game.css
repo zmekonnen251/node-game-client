@@ -19,6 +19,10 @@
     cursor: pointer;
 }
 
+.play {
+    margin-top: 80px;
+}
+
 @media screen and (max-width: 760px) {
     .game-title {
         margin-top: 50px;
