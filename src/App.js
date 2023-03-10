@@ -22,6 +22,7 @@ import Header from './layouts/Header';
 import Footer from './layouts/Footer';
 import Public from './pages/Public';
 import Game from './pages/games/Game';
+import Play from './pages/games/play/play'
 
 // import ProtectedRouteAdmin from './features/authentication/ProtectedRouteAdmin';
 
@@ -40,7 +41,7 @@ function App() {
 					path='/login'
 					element={user.isLoggedIn ? <Navigate to='/profile' /> : <Login />}
 				/>
-
+                <Route path='/play' element={<Play />} />
 				<Route path='/signup' element={<SignUp />} />
 				<Route path='/verify-otp/:phone' element={<VerifyOtp />} />
 				<Route path='/forgot-password' element={<ForgotPassword />} />
