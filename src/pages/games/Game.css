@@ -1,0 +1,30 @@
+.game-title {
+    margin-top: 80px;
+}
+
+.games-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-top: 80px;
+}
+
+.game-image {
+    width: 200px;
+    height: 150px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.play {
+    margin-top: 80px;
+}
+
+@media screen and (max-width: 760px) {
+    .game-title {
+        margin-top: 50px;
+    }
+}

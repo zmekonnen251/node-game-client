@@ -1,6 +1,6 @@
 import { answerQuestion } from "./GameApi/answerQuestion";
-import { gameResult } from "./GameApi/gameResult";
-import { useState } from "react";
+import { useGetNextGameMutation } from "./GameApi/gameApiSlice";
+
 
 export default function ChoiceButton({
   choice,
@@ -16,12 +16,14 @@ export default function ChoiceButton({
   setQuestionId,
   setTimer,
 }) {
+  const [getNextGame, { isLoading, isSuccess, isError }] = useGetNextGameMutation();
   const choiceHandler = async (e) => {
     const answer = e.target.value;
     const game_id = game;
     setCount(count + 1);
-    const response = await answerQuestion(game_id, answer, questionId);
-    setTimer(115);
+    console.log(game_id, answer, questionId);
+    const {data: response } = await getNextGame({game_id, answer, questionId});
+    await setTimer(100);
 
     if (count >= 3) {
       setPlay(true);
