@@ -21,7 +21,7 @@ import PersistLogin from './features/authentication/PersistLogin';
 import Header from './layouts/Header';
 import Footer from './layouts/Footer';
 import Public from './pages/Public';
-import Games from './pages/Games';
+import Game from './pages/Game';
 
 // import ProtectedRouteAdmin from './features/authentication/ProtectedRouteAdmin';
 
@@ -34,9 +34,7 @@ function App() {
 			<Header />
 
 			<Routes>
-
 				
-				<Route path='/game'  element={ < Game />}/>
 				<Route path='/' element={<Public />} />
 				<Route
 					path='/login'
@@ -48,9 +46,7 @@ function App() {
 				<Route path='/forgot-password' element={<ForgotPassword />} />
 				<Route path='/resetPassword/:resetToken' element={<ResetPassword />} />
 				<Route element={<PersistLogin />}>
-					<Route element={<RestrictUnverifiedUser />}>
-						<Route path='/games' element={<Games />} />
-					</Route>
+				<Route path='/games'  element={ < Game />}/>
 					<Route path='/profile' element={<ProtectedRoute />}>
 						<Route index element={<Profile />} />
 						<Route element={<RestrictUnverifiedUser />}>

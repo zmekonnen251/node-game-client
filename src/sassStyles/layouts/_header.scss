@@ -1,17 +1,19 @@
 .header-wrapper {
-	position: fixed;
+	position: absolute;
 	top: 0;
-	width: 95.5%;
+	left: 0;
+	width: 100%;
 	background-color: $color_grey_light_1;
 	opacity: 1;
 	z-index: 5000;
+	
 }
 
 .header {
 	background-color: $color_grey_dark_1;
 	z-index: 200;
 	padding: 0 3rem;
-	margin-top: 1rem;
+	margin-top: 0;
 	height: 8rem;
 	width: 100%;
 	// position: relative;

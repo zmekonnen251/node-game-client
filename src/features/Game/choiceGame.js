@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./GameStyle/choiceGame.css";
 import ChoiceButton from "./choiceButton";
-import { createGame } from "./GameApi/createGame";
+import { useCreateGameMutation, useGetNextGameMutation } from "./GameApi/gameApiSlice";
+
 import Timer from "./timer";
-import { answerQuestion } from "./GameApi/answerQuestion";
+
 
 export default function ChoiceGame() {
   const game = ["messi", "ronaldo", "modric", "salah"];
@@ -17,11 +18,16 @@ export default function ChoiceGame() {
   const [timer, setTimer] = useState(100);
   const [unanswered, setAnswered] = useState("");
   const [error , setError] = useState("");
+  const [createGame, {isLoading, isSuccess, isError}] = useCreateGameMutation();
+  const [getNextGame, { isLoading: isLoading2, isSuccess: isSuccess2, isError: isError2 }] = useGetNextGameMutation();
+  
 
   const answerHandler = async (e) => {
     setCount(count + 1);
-    const response = await answerQuestion(game_id, unanswered, questionId);
-    setTimer(115);
+  
+    const {data : response} = await getNextGame({game_id, answer: unanswered, questionId});
+
+    setTimer(100);
 
     if (count >= 3) {
       setPlay(true);
@@ -44,7 +50,6 @@ export default function ChoiceGame() {
       const interval = setInterval(() => {
         if (timer === 0 && count <= 3) {
             answerHandler();
-            setTimer(100);
             return;
         }
         setTimer((timer) => timer - 1);
@@ -53,11 +58,9 @@ export default function ChoiceGame() {
     }, [timer]);
 
   const playHandler = async () => {
-    const response = await createGame();
-    console.log(response);
-    if(response.status === 200) {
+    const { data: response} = await createGame();
         setError('');
-        setTimer(110);
+        setTimer(100);
         setPlay(false);
         setCount(1);
         setGameResult(0);
@@ -70,16 +73,6 @@ export default function ChoiceGame() {
           response.questionOne.option3,
           response.questionOne.option4,
         ]);
-        return;
-    }
-    if(response.response.data.message){
-        setError(response.response.data.message);
-        setCount(10)
-        return;
-    }
-    setError(response.response.statusText);
-    setCount(10)
-    return '';
   };
 
   return (
@@ -100,7 +93,7 @@ export default function ChoiceGame() {
         {question ? (
           <>
             <div className="question-container">
-              <Timer timer={timer} />
+              <Timer timer={timer}  />
               <h1 className="question">{question}</h1>
             </div>
             <span className="question-mark">?</span>
