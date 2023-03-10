@@ -21,7 +21,7 @@ import PersistLogin from './features/authentication/PersistLogin';
 import Header from './layouts/Header';
 import Footer from './layouts/Footer';
 import Public from './pages/Public';
-import Game from './pages/Game';
+import Game from './pages/games/Game';
 
 // import ProtectedRouteAdmin from './features/authentication/ProtectedRouteAdmin';
 
@@ -55,7 +55,6 @@ function App() {
 					</Route>
 				</Route>
 			</Routes>
-			<Footer />
 		</>
 	);
 }
