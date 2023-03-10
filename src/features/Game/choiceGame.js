@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./GameStyle/choiceGame.css";
 import ChoiceButton from "./choiceButton";
 import { useCreateGameMutation, useGetNextGameMutation } from "./GameApi/gameApiSlice";
+import GamePlay from "./gamePlay";
 
 import Timer from "./timer";
 
@@ -83,10 +84,7 @@ export default function ChoiceGame() {
         }
         {play ? (
           <>
-            <button className="play__button" onClick={playHandler}>
-              Play
-            </button>
-            {gameResult ? <h1>Game Result: {gameResult}/10</h1> : null}
+          <GamePlay gameResult={gameResult} playHandler={playHandler} />
           </>
         ) : null}
 
